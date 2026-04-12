@@ -1,6 +1,7 @@
 .venv/
 venv/
 env/
+.idea/
 data/*.csv
 data/*.json
 __pycache__/
