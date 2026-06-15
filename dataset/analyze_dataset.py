@@ -1,5 +1,5 @@
 import csv
-from collections import deque
+
 import json
 import os
 
@@ -17,7 +17,6 @@ def run_dataset_analysis(csv_path: str):
         total_fraud_count = 0
         global_amounts_sum = 0.0
         global_fraud_amount_sum = 0.0
-        user_interim_histories = {}
         hourly_stats = {}
         last_tx_type = 0
         tx_type_transitions = {i: {j: 0 for j in range(2)} for i in range(2)}
@@ -48,9 +47,6 @@ def run_dataset_analysis(csv_path: str):
                 global_fraud_amount_sum += amount
                 hourly_stats[hour]["fraud_amount"] += amount
                 hourly_stats[hour]["cnt_fraud"] += 1
-            if sender not in user_interim_histories:
-                user_interim_histories[sender] = deque(maxlen=30)
-            user_interim_histories[sender].append(amount)
 
             tx_type_transitions[last_tx_type][is_fraud] += 1# для матрицы 2х2
             last_tx_type = is_fraud
