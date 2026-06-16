@@ -65,10 +65,8 @@ def run_hardware_benchmark(csv_path: str):
             user_history[sender].append(amount)
             processed_rows += 1
 
-
     avg_velocity_time = total_velocity_time / processed_rows if processed_rows > 0 else 0.0
     avg_z_time = total_z_time / processed_rows if processed_rows > 0 else 0.0
-
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
