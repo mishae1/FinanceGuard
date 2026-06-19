@@ -1,0 +1,47 @@
+{
+    "system_settings": {
+        "fps": 60,
+        "time_scale": 4.0,
+        "gateways_count": 3,
+        "mode_switch_interval_sec": 1.0,
+        "gateway_base_mu": 2.6,
+        "gateway_break_median_sec": 30.0,
+        "gateway_repair_time_sec": 5.0,
+        "antifraud_threshold_multiplier": 3.0,
+        "dataset_avg_amount": 179862.35584671315,
+        "lambda_normal": 3.0,
+        "lambda_peak": 15.0,
+        "lambda_attack": 35.0,
+        "amount_normal_min_mult": 0.5,
+        "amount_normal_max_mult": 3.2,
+        "amount_fraud_min_mult": 2.0,
+        "amount_fraud_max_mult": 4.5
+    },
+    "markov_matrix_3x3": {
+        "0": {
+            "0": 0.968013468013468,
+            "1": 0.02861952861952862,
+            "2": 0.003367003367003367
+        },
+        "1": {
+            "0": 0.0990990990990991,
+            "1": 0.7837837837837838,
+            "2": 0.11711711711711711
+        },
+        "2": {
+            "0": 0.21621621621621623,
+            "1": 0.1891891891891892,
+            "2": 0.5945945945945946
+        }
+    },
+    "markov_matrix_2x2": {
+        "0": {
+            "0": 0.9996389907604296,
+            "1": 0.00036100923957038954
+        },
+        "1": {
+            "0": 0.27977061981454365,
+            "1": 0.7202293801854563
+        }
+    }
+}
