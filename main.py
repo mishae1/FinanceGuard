@@ -2,7 +2,6 @@ import os
 import sys
 import json
 
-# Говорим Python искать файлы прямо в папке Bank
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import pygame
@@ -16,15 +15,13 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
 
-    # Загружаем конфиг напрямую, без посредников
+    # Загружаем конфиг
     config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "core", "config.json")
     with open(config_path, "r", encoding="utf-8") as f:
         config_data = json.load(f)
 
-    # Достаем множитель скорости из конфига (по умолчанию 1.0, если ключа нет)
     time_scale = config_data.get("system_settings", {}).get("time_scale", 1.0)
 
-    # Инициализация модулей
     generator = TrafficGenerator(config_data)
     analyzer = AntifraudAnalyzer(config_data)
     queue_manager = QueueManager(config_data, analyzer)
@@ -32,21 +29,19 @@ def main():
 
     running = True
     while running:
-        # Получаем реальное время между кадрами (в секундах)
         dt = clock.tick(60) / 1000.0
 
-        # Умножаем реальное время на коэффициент масштабирования
+        # Коэффициент масштабирования
         scaled_dt = dt * time_scale
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-        # Обновление логики симуляции (передаем УСКОРЕННОЕ время)
+        # Обновление
         generator.update(scaled_dt, queue_manager.temp_buffer)
         queue_manager.update(scaled_dt)
 
-        # Сбор статистики
         stats = {
             "processed": queue_manager.total_processed,
             "total_fraud": generator.total_fraud_generated,

@@ -2,21 +2,19 @@ import pygame
 
 
 class SimulationRenderer:
-    # Выносим все цвета в константы класса (Палитра интерфейса)
-    COLOR_BG = (240, 243, 246)  # Светло-серый фон приложения
+    COLOR_BG = (240, 243, 246)  # Серый фон приложения
     COLOR_PANEL_BG = (255, 255, 255)  # Белый фон для панелей
     COLOR_BORDER = (220, 224, 230)  # Светлая граница блоков
     COLOR_BORDER_STATUS = (70, 130, 180)  # Синяя граница главного статуса
 
     # Цвета текста
-    COLOR_TEXT_MAIN = (50, 70, 100)  # Темно-синий для заголовков
+    COLOR_TEXT_MAIN = (50, 70, 100)  # Синий для заголовков
     COLOR_TEXT_MUTED = (100, 110, 120)  # Серый для подписей
     COLOR_TEXT_DARK = (20, 50, 90)  # Насыщенный для важного текста
 
-    # Статусы транзакций и шлюзов
-    COLOR_FRAUD = (240, 128, 128)  # Красный (Фрод / Сломан)
-    COLOR_NORMAL = (144, 238, 144)  # Зеленый (Безопасно / Свободен)
-    COLOR_PROCESS = (0, 123, 255)  # Синий (Обработка шлюзом)
+    COLOR_FRAUD = (240, 128, 128)
+    COLOR_NORMAL = (144, 238, 144)
+    COLOR_PROCESS = (0, 123, 255)
 
     # Вспомогательные
     COLOR_GATEWAY_BG = (248, 249, 250)  # Фон плашки шлюза
@@ -28,7 +26,6 @@ class SimulationRenderer:
         self.screen = pygame.display.set_mode((1000, 650))
         pygame.display.set_caption("Мониторинговый комплекс Банка")
 
-        # Простые шрифты для текста
         self.font_normal = pygame.font.SysFont("Arial", 14)
         self.font_bold = pygame.font.SysFont("Arial", 15, bold=True)
         self.font_large = pygame.font.SysFont("Arial", 18, bold=True)
@@ -36,15 +33,11 @@ class SimulationRenderer:
     def render_frame(self, mode, metrics, queue_obj, gateways, fps=0):
         # Заливаем фон
         self.screen.fill(self.COLOR_BG)
-
-        # Вызываем отрисовку четырех основных панелей
         self._draw_status_panel(mode)
         self._draw_queue_panel(queue_obj)
         self._draw_gateways_panel(gateways)
-        # ВАЖНО: Теперь передаем mode в боковую панель, чтобы считать динамическую нагрузку
         self._draw_sidebar(metrics, mode)
 
-        # Обновляем экран
         pygame.display.flip()
 
     def _draw_status_panel(self, mode):
@@ -133,7 +126,6 @@ class SimulationRenderer:
 
         self.screen.blit(self.font_bold.render("ТЕОРЕТИЧЕСКИЙ АНАЛИЗ", True, self.COLOR_TEXT_MAIN), (panel_x + 25, 315))
 
-        # --- Динамический расчет аналитики из конфига ---
         if mode == 0:
             current_lambda = self.settings.get("lambda_normal", 3.0)
         elif mode == 1:

@@ -9,7 +9,7 @@ def run_dataset_analysis(csv_path: str):
     project_root = os.path.dirname(current_script_dir)
     config_json_path = os.path.join(project_root, "core", "config.json")
 
-    # загружаем старый конфиг, чтобы не стереть настройки симулятора (fps, lambda и т.д.)
+
     if os.path.exists(config_json_path):
         with open(config_json_path, "r", encoding="utf-8") as f:
             config_data = json.load(f)
@@ -64,8 +64,6 @@ def run_dataset_analysis(csv_path: str):
 
         matrix_3x3 = calculate_matrix_3x3(hourly_stats)
         matrix_2x2 = calculate_matrix_2x2(tx_type_transitions)
-
-        # аккуратно обновляем только результаты анализа данных
         config_data["system_settings"]["dataset_avg_amount"] = global_average_amount
         config_data["markov_matrix_3x3"] = matrix_3x3
         config_data["markov_matrix_2x2"] = matrix_2x2
@@ -93,11 +91,11 @@ def calculate_matrix_3x3(hourly_stats: dict) -> dict:
     for hour in sorted(hourly_stats.keys()):
         cnt = hourly_stats[hour]["cnt_per_hour"]
         if cnt > threshold_attack:
-            hourly_modes[hour] = 2  # режим атаки
+            hourly_modes[hour] = 2
         elif cnt > threshold_peak:
-            hourly_modes[hour] = 1  # пиковый режим
+            hourly_modes[hour] = 1
         else:
-            hourly_modes[hour] = 0  # обычный режим
+            hourly_modes[hour] = 0
 
     transition_counts = {i: {j: 0 for j in range(3)} for i in range(3)}
     modes_list = [hourly_modes[h] for h in sorted(hourly_modes.keys())]

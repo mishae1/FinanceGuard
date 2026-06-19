@@ -15,7 +15,7 @@ class TrafficGenerator:
         self.total_fraud_generated = 0
 
     def update(self, dt: float, queue_to_fill: list):
-        # 1. Смена режима системы (Марковская цепь 3х3)
+        # Выбор режима
         self.mode_timer += dt
         interval = self.settings.get("mode_switch_interval_sec", 2.0)
         if self.mode_timer > interval:
@@ -25,7 +25,7 @@ class TrafficGenerator:
                 [0, 1, 2], weights=[probs["0"], probs["1"], probs["2"]]
             )[0]
 
-        # 2. Выбор интенсивности потока
+        # Выбор интенсивности
         if self.current_mode == 0:
             current_lambda = self.settings["lambda_normal"]
         elif self.current_mode == 1:
@@ -33,10 +33,9 @@ class TrafficGenerator:
         else:
             current_lambda = self.settings["lambda_attack"]
 
-        # 3. Генерация транзакций
+        # Генерация транзакций
         self.generation_timer += dt
         time_between_arrivals = 1.0 / current_lambda
-
         while self.generation_timer >= time_between_arrivals:
             self.generation_timer -= time_between_arrivals
 
